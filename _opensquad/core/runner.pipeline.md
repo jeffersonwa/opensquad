@@ -378,6 +378,22 @@ After a step completes output and there IS a next step (MANDATORY):
    - Keep the `"handoff"` object from step 1 unchanged
    - `"updatedAt"`: now
 
+### Step Execution Order (Summary)
+
+For reference, the complete execution order for each pipeline step is:
+
+```
+0. Dashboard update (state.json)
+1. Pre-Step Input Validation (bash gate)
+2. Read step file
+3. Check execution mode and execute (subagent / inline / checkpoint)
+4. Post-Step Output Validation (bash gate)
+5. Veto Condition Enforcement
+6. Dashboard Handoff (to next step)
+```
+
+Steps 1 and 4 are binary bash gates. If either fails, the pipeline does NOT advance — the user is consulted.
+
 ### After Pipeline Completion
 
 1. Save final output to `squads/{name}/output/{run_id}/{filename}.md`
