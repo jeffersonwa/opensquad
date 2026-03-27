@@ -1,4 +1,4 @@
-import { cp, mkdir, readFile, stat, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readFile, stat } from 'node:fs/promises';
 import { join, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadLocale, t } from './i18n.js';
