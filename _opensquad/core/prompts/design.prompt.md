@@ -347,6 +347,22 @@ Wait for user approval. If they want changes, adjust and re-present.
 
 ---
 
+## Phase G.5: Template Selection (Optional)
+
+**Condition:** The design includes an agent with the `image-creator` skill (or any image-producing skill).
+
+If this condition is met, after the user approves the design in Phase G, present:
+
+> "O squad inclui um agente de design de imagens. Quer escolher um template visual agora para definir a identidade visual? Você pode fazer isso depois também, pedindo para editar o template do designer."
+
+- **If Yes:** Read and follow the instructions in `skills/template-designer/SKILL.md`. The template selection process takes over until the user approves a template. The approved template data (template-reference.html path and visual-identity.md path) should be included in the design.yaml output so the Build phase can reference them.
+
+- **If No:** Continue to Build phase. Add a note to design.yaml: `template_selection: skipped` so the Build phase knows no template was chosen.
+
+After template selection completes (or is skipped), proceed to output design.yaml as normal.
+
+---
+
 ## Output: `_build/design.yaml`
 
 After user approval, write `squads/{code}/_build/design.yaml` with the following schema:

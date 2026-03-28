@@ -57,12 +57,12 @@ agent:
 
       The create flow is now handled by the phased orchestration system.
       See the SKILL.md entry point for the full phased flow:
-      Discovery → Investigation → Design → Build
+      Discovery → Investigation → Design → Template Selection (optional) → Build
 
       Each phase is a separate prompt in `_opensquad/core/prompts/`:
       - `discovery.prompt.md` — Phase 1: Intelligent wizard
       - `sherlock-*.md` — Phase 2: Investigation (optional)
-      - `design.prompt.md` — Phase 3: Squad architecture
+      - `design.prompt.md` — Phase 3: Squad architecture (includes optional Phase G.5: Template Selection)
       - `build.prompt.md` — Phase 4: File generation + validation
 
       The SKILL.md orchestrator dispatches each phase as a subagent.
@@ -74,9 +74,12 @@ agent:
          If only 1 squad exists, add "Cancel" as a second option. If 0 squads, inform user directly.
       2. Read the squad's squad.yaml to understand current structure
       3. Ask what changes the user wants
-      4. Modify the relevant files (agent .md files, pipeline steps, squad.yaml)
-      5. Present summary of changes
-      6. Confirm with user
+      4. **If the user asks to edit/define/change the visual template or identity of a design agent:**
+         - Read and follow `skills/template-designer/SKILL.md`
+         - If `template-reference.html` and `visual-identity.md` already exist in the squad's `pipeline/data/`, load them as the starting point
+      5. Modify the relevant files (agent .md files, pipeline steps, squad.yaml)
+      6. Present summary of changes
+      7. Confirm with user
 
     list-squads: |
       ## List Squads Workflow
