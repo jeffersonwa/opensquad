@@ -101,6 +101,40 @@ Ask: "O resultado ficou como esperado? Posso finalizar ou quer ajustes?"
 - Then **Phase 5** (VERIFY)
 - Repeat until user approves
 
+### Phase 7: FULL SPRITE REVIEW
+
+> Triggered only on explicit user request. Replaces phases 2–6 for this session.
+
+#### 7.1 INVENTORY
+
+Read `dashboard/src/office/RoomBuilder.ts` and `dashboard/src/office/AgentSprite.ts` in full. Build a structured list of every sprite currently placed in the scene:
+
+For each sprite, record:
+- **Key** — the asset key string (e.g. `furniture_monstera`, `desk_black_idle`)
+- **Type** — `furniture` | `desk` | `avatar` | `decoration`
+- **File + line** — where in the code it is placed
+- **Scale** — the `.setScale()` value (or 1 if not set)
+- **Depth** — the `.setDepth()` value
+- **Position** — the (x, y) expression in code (e.g. `MARGIN / 2`, `roomW - 40`)
+
+Do NOT skip any sprite. Include sprites inside loops (e.g. per-agent desk sprites).
+
+#### 7.2 SCREENSHOT
+
+Auto-detect the dashboard URL (same logic as Phase 2):
+1. Check `dashboard/vite.config.ts` for `server.port`
+2. Check `dashboard/package.json` scripts for `--port` flags
+3. Fallback: `http://localhost:5173`
+
+Take screenshot via Playwright CLI:
+```bash
+npx playwright screenshot --browser chromium "URL" "/tmp/sprite-review-before.png" --full-page
+```
+
+If URL is unreachable, tell the user to run `cd dashboard && npm run dev` and wait for confirmation before continuing.
+
+Present the screenshot to the user and say: "Capturei o estado atual. Iniciando avaliação de cada sprite..."
+
 ## Quick Reference
 
 ### Key Files
