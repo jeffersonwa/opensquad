@@ -101,7 +101,6 @@ Before starting execution:
               "name": "{agent displayName}",
               "icon": "{agent icon}",
               "status": "idle",
-              "deliverTo": null,
               "desk": { "col": {col from b}, "row": {row from b} }
             }
           ],
@@ -246,7 +245,6 @@ Apply this transformation consistently for every write in this step.
          "name": "{agent displayName}",
          "icon": "{agent icon}",
          "status": "{working if this is the current step's agent, done if already completed, idle otherwise}",
-         "deliverTo": null,
          "desk": {preserve existing desk positions from state.json — do not change col/row}
        }
      ],
@@ -386,7 +384,7 @@ When a step has `on_reject: {step-id}`:
 After a step completes output and there IS a next step (MANDATORY):
 
 1. **Write delivering state** — Write `squads/{name}/state.json` with:
-   - Current step's agent: `"status": "delivering"`, `"deliverTo": "{next step's agent id}"`
+   - Current step's agent: `"status": "delivering"`
    - Next step's agent: `"status": "idle"`
    - All other agents unchanged
    - Pipeline `"status": "running"`
@@ -407,7 +405,7 @@ After a step completes output and there IS a next step (MANDATORY):
    ```
 
 3. **Write working state** — Write `squads/{name}/state.json` again with:
-   - Current agent: `"status": "done"`, `"deliverTo": null`
+   - Current agent: `"status": "done"`
    - Next agent: `"status": "working"`
    - Keep the `"handoff"` object from step 1 unchanged
    - `"updatedAt"`: now
@@ -434,7 +432,7 @@ Steps 1 and 4 are binary bash gates. If either fails, the pipeline does NOT adva
    (The run folder was created during initialization — no separate date subfolder needed)
 1b. **Update dashboard** — MANDATORY. Write `squads/{name}/state.json` with:
     - `"status": "completed"`
-    - All agents: `"status": "done"`, `"deliverTo": null`
+    - All agents: `"status": "done"`
     - `"updatedAt"`: now
     - `"completedAt"`: now
     - `"startedAt"`: preserve from existing `state.json`
