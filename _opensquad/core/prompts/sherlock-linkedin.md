@@ -67,7 +67,7 @@ After scrolling, take a new snapshot and continue extraction.
 
 ## Configuration Defaults
 
-- Default post count: 8-12 most recent posts
+- Default post count: up to 3 most recent posts
 - Content types: text posts, document/carousel posts, articles
 - Priority: long-form text posts and articles first (higher content density), then shorter posts
 - Stop condition: target count reached OR 3 consecutive scrolls with no new posts

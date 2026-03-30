@@ -129,20 +129,20 @@ For each URL, detect the platform and URL type:
 **For Instagram Post URLs** (path contains `/p/`, `/reel/`, `/tv/`):
 Ask (one question per URL):
 > "Detectei um link de post específico. Qual o objetivo da investigação?"
-1. "Post único" — usar só esse post como referência (~1-2 min) → saves as `single_post`
-2. "Varredura do perfil" — analisar 5-10 posts do perfil para identificar padrões (~5-10 min) → saves as `profile_5_10`
+1. "Só esse post" — análise focada (~3-5 min) → saves as `single_post`
+2. "Últimos 3 posts do perfil" — padrão de conteúdo (~10 min) → saves as `profile_3`
 
 **For Instagram Profile URLs:**
 Ask:
 > "Quantos posts do Instagram devo analisar?"
-1. "1 post" — o mais recente (~2-3 min) → saves as `profile_1`
-2. "5-10 posts" — padrão de conteúdo, recomendado (~5-10 min) → saves as `profile_5_10`
+1. "1 post" — o mais recente (~3-5 min) → saves as `profile_1`
+2. "Últimos 3 posts" — padrão de conteúdo (~10 min) → saves as `profile_3`
 
 **For YouTube, Twitter/X, LinkedIn:**
 Ask content types (user can reply with multiple numbers separated by spaces) and quantity:
-- YouTube defaults: Long videos, quantity 5–10
-- Twitter/X defaults: Tweets + Threads, quantity 15–20
-- LinkedIn defaults: Posts + Articles, quantity 10–15
+- YouTube defaults: Long videos, quantity 1–3
+- Twitter/X defaults: Tweets + Threads, quantity 3–5
+- LinkedIn defaults: Posts + Articles, quantity 1–3
 
 Save each URL with its `platform`, `investigation_mode`, and original URL string in `investigation.profiles`.
 
@@ -243,7 +243,7 @@ investigation:
   profiles:
     - url: "{original URL}"
       platform: "{instagram | youtube | twitter | linkedin}"
-      investigation_mode: "{single_post | profile_1 | profile_5_10}"
+      investigation_mode: "{single_post | profile_1 | profile_3}"
 
 target_formats:  # content squads only; empty list for others
   - "{format-id}"

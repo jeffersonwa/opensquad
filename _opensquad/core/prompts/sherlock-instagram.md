@@ -19,7 +19,7 @@ This file contains the Instagram-specific extraction process. The Architect load
 Before starting extraction, check the `investigation_mode` value from the Architect's prompt:
 
 - **`single_post`**: Skip "Profile Grid Extraction" entirely. The Architect provided the exact post URL. Jump directly to the relevant extraction section (Carousel Extraction, Reel Extraction, or Single Image Extraction) using that URL.
-- **`profile_1`** or **`profile_5_10`**: Proceed with Profile Grid Extraction below. For `profile_1`, stop after collecting 1 post. For `profile_5_10`, stop after collecting 10 posts.
+- **`profile_1`** or **`profile_3`**: Proceed with Profile Grid Extraction below. For `profile_1`, stop after collecting 1 post. For `profile_3`, stop after collecting 3 posts.
 
 Load the Instagram session before navigating:
 ```bash
@@ -117,7 +117,7 @@ Repeat the scroll-and-snapshot cycle until the target number of posts has been e
 
 ## Configuration Defaults
 
-- Default content count: 6-10 most recent posts
+- Default content count: up to 3 most recent posts
 - Content types to extract: all (carousels, reels, single images)
 - Priority: extract carousels and reels first (higher signal content), then single images
 - Stop condition: target count reached OR 3 consecutive scrolls with no new content

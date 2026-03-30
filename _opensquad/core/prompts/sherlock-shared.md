@@ -85,9 +85,9 @@ The Architect always passes an `investigation_mode` parameter in the subagent pr
 |------|---------|----------|
 | `single_post` | User provided a direct post/reel/tv URL — just analyze that one post | Skip profile grid navigation. Go directly to the post URL. Extract that post only. |
 | `profile_1` | Scan profile, get 1 post only | Navigate to profile grid. Collect the most recent 1 post. Stop after 1. |
-| `profile_5_10` | Scan profile for patterns | Navigate to profile grid. Collect up to 10 posts. Stop at 10 even if more are available. |
+| `profile_3` | Scan profile for patterns | Navigate to profile grid. Collect up to 3 posts. Stop at 3 even if more are available. |
 
-**If no `investigation_mode` is specified:** default to `profile_5_10`.
+**If no `investigation_mode` is specified:** default to `profile_3`.
 
 This mode applies to Instagram only. YouTube, Twitter/X, and LinkedIn use their own quantity configuration.
 
@@ -635,9 +635,8 @@ Before starting extraction for each profile, Sherlock asks the user for configur
 
 **Content quantity:**
 "How many pieces of content should I extract from @{username}?"
-1. 5 (quick scan)
-2. 10-15 (standard)
-3. 20+ (deep dive)
+1. 1 (single post)
+2. 3 (standard — recommended)
 
 **Content type focus** (platform-dependent):
 

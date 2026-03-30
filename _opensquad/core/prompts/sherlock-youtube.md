@@ -79,7 +79,7 @@ After extracting a video, navigate back to the channel videos page using browser
 
 ## Configuration Defaults
 
-- Default video count: 6-8 most recent videos
+- Default video count: up to 3 most recent videos
 - Transcription method: subtitles first, audio+whisper fallback
 - Priority: most recent uploads first, then highest viewed
 - Stop condition: target count reached OR end of uploads page

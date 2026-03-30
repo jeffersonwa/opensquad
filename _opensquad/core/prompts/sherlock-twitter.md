@@ -72,7 +72,7 @@ After scrolling, take a new snapshot and continue extraction.
 
 ## Configuration Defaults
 
-- Default tweet count: 10-15 most recent tweets (excluding replies to others)
+- Default tweet count: up to 3 most recent tweets (excluding replies to others)
 - Content types: standalone tweets and threads (skip replies to other users unless they are high-engagement)
 - Priority: threads first (higher content density), then standalone tweets by engagement
 - Stop condition: target count reached OR 3 consecutive scrolls with no new tweets
