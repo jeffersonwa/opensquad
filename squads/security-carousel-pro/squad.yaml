@@ -1,0 +1,44 @@
+name: security-article-pro
+description: "Gera artigos do LinkedIn sobre segurança da informação a partir de notícias quentes e publica automaticamente."
+icon: "📝"
+agents:
+  - id: security-scout
+    role: "Pesquisador de Ameaças"
+  - id: article-writer
+    role: "Escritor de Conteúdo Profissional"
+  - id: visual-artist
+    role: "Designer de IA"
+  - id: linkedin-manager
+    role: "Publicador"
+
+pipeline:
+  - step: 1
+    name: "Pesquisa de Notícias"
+    agent: security-scout
+    action: "Buscar as 3 notícias mais relevantes sobre SI no Computer Weekly BR"
+    output_file: "pipeline/data/news.json"
+    checkpoint: true
+
+  - step: 2
+    name: "Criação do Artigo"
+    agent: article-writer
+    action: "Transformar a notícia principal em um artigo estruturado (Rascunho)"
+    input_file: "pipeline/data/news.json"
+    output_file: "pipeline/data/article.json"
+    checkpoint: true
+
+  - step: 3
+    name: "Geração de Capa"
+    agent: visual-artist
+    action: "Gerar uma imagem de capa impactante para o artigo"
+    input_file: "pipeline/data/article.json"
+    output_dir: "pipeline/output/cover"
+    checkpoint: true
+
+  - step: 4
+    name: "Publicação no LinkedIn"
+    agent: linkedin-manager
+    action: "Publicar o artigo no LinkedIn usando a skill linkedin-publisher no modo artigo"
+    input_file: "pipeline/data/article.json"
+    input_dir: "pipeline/output/cover"
+    checkpoint: true

@@ -1,0 +1,5 @@
+id;displayName;icon;path;skills
+security-scout;Scout🛡️;🛡️;./agents/security-scout.agent.md;web_search,web_fetch
+article-writer;GhostWriter✍️;✍️;./agents/article-writer.agent.md;
+visual-artist;Designer🎨;🎨;./agents/visual-artist.agent.md;image-creator
+linkedin-manager;Publisher🚀;🚀;./agents/linkedin-manager.agent.md;linkedin-publisher

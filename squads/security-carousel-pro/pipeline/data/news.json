@@ -1,0 +1,32 @@
+{
+  "news_items": [
+    {
+      "id": 1,
+      "title": "Vazamento Massivo na NeoBank BR: 500 Mil Chaves Pix Expostas",
+      "summary": "Uma falha crítica de Broken Object Level Authorization (BOLA) em uma API legada da fintech NeoBank BR permitiu a criminosos extraírem dados sensíveis de mais de 500 mil clientes brasileiros. Os dados incluem chaves Pix, CPFs e volumes transacionais.",
+      "source": "InfoSegura / Computer Weekly BR",
+      "date": "2026-04-08",
+      "category": "Data Breach",
+      "impact": "Alto / Crítico"
+    },
+    {
+      "id": 2,
+      "title": "Novo Ransomware 'GauchoLocker' mirra Indústria de Autopeças no RS",
+      "summary": "Um novo grupo de ransomware, apelidado de GauchoLocker, paralisou três fábricas de componentes automotivos no Rio Grande do Sul. O grupo exige pagamentos em Monero para liberar os sistemas de ERP.",
+      "source": "Seguro de Dados News",
+      "date": "2026-04-07",
+      "category": "Ransomware",
+      "impact": "Médio"
+    },
+    {
+      "id": 3,
+      "title": "CISA Alerta para Exploração Ativa de Falhas de Zero-Day em Firewalls Populares",
+      "summary": "O CISA emitiu um aviso urgente sobre vulnerabilidades ativas em firewalls de borda que permitem acesso remoto root sem autenticação. Patches de emergência foram disponibilizados nesta manhã.",
+      "source": "CISA / Global Security",
+      "date": "2026-04-08",
+      "category": "Vulnerability",
+      "impact": "Alto"
+    }
+  ],
+  "selected_item_id": 1
+}

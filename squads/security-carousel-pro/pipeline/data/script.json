@@ -1,0 +1,50 @@
+{
+  "carousel": {
+    "topic": "Trojans Bancários no Brasil: A Ameaça #1",
+    "caption": "🚨 ALERTA: Você sabia que o Brasil é o país mais visado por Trojans Bancários na América Latina? 🏦💻\n\nNossa rápida digitalização financeira trouxe facilidade, mas também atraiu o crime organizado. Criminosos estão usando phishing e técnicas avançadas para esvaziar contas de usuários comuns e empresas.\n\nA cibersegurança não é apenas opcional, é sobrevivência digital. No carrossel de hoje, detalhamos como esse malware opera e como você pode se proteger.\n\n🛡️ Proteja seu patrimônio digital. Leia até o fim!\n\n#CyberSecurity #Infosec #SegurancaDaInformacao #BrasilTech #BankingTrojan #Malware #CiberSeguranca #JeffersonAlmeida",
+    "slides": [
+      {
+        "number": 1,
+        "title": "A Ameaça nº 1 no Brasil: Trojans Bancários",
+        "text": "O Brasil lidera o ranking de ataques bancários na América Latina. Você está protegido?",
+        "image_prompt": "A futuristic dark digital landscape with a red glowing Trojan horse icon, holographic data streams, and map of Brazil in the background, dark blue and black color palette, neon red accents."
+      },
+      {
+        "number": 2,
+        "title": "O que são e como agem?",
+        "text": "Maremotos de phishing e downloads falsos instalam cavalos de troia que monitoram suas transações em tempo real.",
+        "image_prompt": "Abstract representation of data being intercepted, binary code streams being redirected by a dark hook, neon cyan light, tech aesthetics."
+      },
+      {
+        "number": 3,
+        "title": "Phishing: A Porta de Entrada",
+        "text": "Links via WhatsApp, e-mail e SMS enganam o usuário para baixar o malware sem perceber.",
+        "image_prompt": "A smartphone screen showing an incoming message with a suspicious link, surrounded by digital spider webs, dark tech professional style."
+      },
+      {
+        "number": 4,
+        "title": "O Alvo: Seu Patrimônio",
+        "text": "O objetivo é roubar credenciais de bancos e apps de pagamento para realizar fraudes financeiras massivas.",
+        "image_prompt": "A digital vault with glowing circuits, some circuits are red and broken, indicating a breach, cinematic lighting, deep blues."
+      },
+      {
+        "number": 5,
+        "title": "Como as Empresas estão reagindo?",
+        "text": "Investimentos em biometria e automação crescem, mas a conscientização do usuário ainda é a maior falha.",
+        "image_prompt": "A human fingerprint integrated with digital circuit lines, bright blue glow against a dark tech background."
+      },
+      {
+        "number": 6,
+        "title": "Como se Proteger?",
+        "text": "1. Nunca clique em links suspeitos.\n2. Use MFA sempre.\n3. Verifique a URL do site antes de qualquer login.",
+        "image_prompt": "A digital shield glowing with protective energy, layered holographic security interfaces, professional tech aesthetic."
+      },
+      {
+        "number": 7,
+        "title": "Segurança é um Processo ContínuO",
+        "text": "Mantenha-se informado. Siga para mais insights sobre tecnologia e segurança da informação.",
+        "image_prompt": "Close-up of a high-tech eye looking at data monitors, reflection of code and security icons in the pupil, dark blue and black theme."
+      }
+    ]
+  }
+}
