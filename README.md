@@ -61,6 +61,7 @@ npx opensquad update
 | IDE | Status |
 |-----|--------|
 | Claude Code | Disponível |
+| Qwen Code | Disponível |
 | Cursor | Disponível |
 | VS Code + Copilot | Disponível |
 | Codex (OpenAI) | Disponível |

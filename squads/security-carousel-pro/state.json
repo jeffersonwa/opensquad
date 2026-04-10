@@ -1,0 +1,19 @@
+{
+  "squad": "security-article-pro",
+  "status": "running",
+  "step": { "current": 4, "total": 4, "label": "publicacao-retry" },
+  "agents": [
+    { "id": "security-scout", "name": "Scout🛡️", "icon": "🛡️", "status": "done", "desk": { "col": 1, "row": 1 } },
+    { "id": "article-writer", "name": "GhostWriter✍️", "icon": "✍️", "status": "done", "desk": { "col": 2, "row": 1 } },
+    { "id": "visual-artist", "name": "Designer🎨", "icon": "🎨", "status": "done", "desk": { "col": 3, "row": 1 } },
+    { "id": "linkedin-manager", "name": "Publisher🚀", "icon": "🚀", "status": "working", "desk": { "col": 1, "row": 2 } }
+  ],
+  "handoff": {
+    "from": "visual-artist",
+    "to": "linkedin-manager",
+    "message": "Tentando novamente após ajuste na detecção de título.",
+    "completedAt": "2026-04-10T11:18:40Z"
+  },
+  "startedAt": "2026-04-10T11:08:00Z",
+  "updatedAt": "2026-04-10T11:18:40Z"
+}

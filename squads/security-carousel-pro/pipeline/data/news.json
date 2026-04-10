@@ -1,32 +1,22 @@
 {
-  "news_items": [
+  "top_news": [
     {
-      "id": 1,
-      "title": "Vazamento Massivo na NeoBank BR: 500 Mil Chaves Pix Expostas",
-      "summary": "Uma falha crítica de Broken Object Level Authorization (BOLA) em uma API legada da fintech NeoBank BR permitiu a criminosos extraírem dados sensíveis de mais de 500 mil clientes brasileiros. Os dados incluem chaves Pix, CPFs e volumes transacionais.",
-      "source": "InfoSegura / Computer Weekly BR",
-      "date": "2026-04-08",
-      "category": "Data Breach",
-      "impact": "Alto / Crítico"
+      "title": "ESET: Previsões de Cibersegurança para 2026 e o Impacto da IA",
+      "url": "https://www.computerweekly.com/br/noticias/ESET-previsoes-seguranca-2026-IA",
+      "summary": "A ESET projeta um cenário crítico para 2026, onde a Inteligência Artificial deixa de ser apoio para se tornar o vetor central de ataques. Criminosos utilizarão 'Agentic AI' (IAs autônomas) para hiperpersonalizar phishing e automatizar a evasão de malwares em tempo real, tornando as defesas tradicionais obsoletas.",
+      "impact": "CISOs, gestores de TI e empresas que adotam IA sem protocolos de governança, enfrentando riscos regulatórios e operacionais inéditos."
     },
     {
-      "id": 2,
-      "title": "Novo Ransomware 'GauchoLocker' mirra Indústria de Autopeças no RS",
-      "summary": "Um novo grupo de ransomware, apelidado de GauchoLocker, paralisou três fábricas de componentes automotivos no Rio Grande do Sul. O grupo exige pagamentos em Monero para liberar os sistemas de ERP.",
-      "source": "Seguro de Dados News",
-      "date": "2026-04-07",
-      "category": "Ransomware",
-      "impact": "Médio"
+      "title": "Agentes de IA no Varejo: Vendas Aceleradas vs. Riscos Reputacionais",
+      "url": "https://www.computerweekly.com/br/noticias/agentes-IA-varejo-riscos-reputacionais",
+      "summary": "A adoção agressiva de agentes autônomos no e-commerce está acelerando as vendas, mas abre brechas para erros automatizados de alto impacto. Sem supervisão humana, decisões de IA podem gerar danos de marca irreparáveis e perdas financeiras por falhas lógicas e éticas.",
+      "impact": "Empresas de e-commerce e varejo digital, além de consumidores finais afetados por decisões automatizadas incorretas."
     },
     {
-      "id": 3,
-      "title": "CISA Alerta para Exploração Ativa de Falhas de Zero-Day em Firewalls Populares",
-      "summary": "O CISA emitiu um aviso urgente sobre vulnerabilidades ativas em firewalls de borda que permitem acesso remoto root sem autenticação. Patches de emergência foram disponibilizados nesta manhã.",
-      "source": "CISA / Global Security",
-      "date": "2026-04-08",
-      "category": "Vulnerability",
-      "impact": "Alto"
+      "title": "DDoS em 2026: Da Camada de Rede à Existência do Negócio",
+      "url": "https://www.computerweekly.com/br/noticias/DDoS-2026-continuidade-negocio",
+      "summary": "O cenário de ataques DDoS evoluiu drasticamente. Facilitados pela IA, esses ataques não visam mais 'apenas' derrubar o site, mas paralisar a continuidade de negócios críticos. O DDoS agora é uma questão de resiliência existencial para infraestruturas digitais e serviços governamentais.",
+      "impact": "Infraestruturas críticas, provedores de serviços na nuvem e órgãos governamentais (como o Gov.br)."
     }
-  ],
-  "selected_item_id": 1
+  ]
 }

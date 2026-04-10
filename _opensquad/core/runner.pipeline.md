@@ -62,6 +62,10 @@ Before starting execution:
 4. **Model tiers**: Individual steps declare their own `model_tier` in their frontmatter (`fast` or `powerful`), set by the Architect at squad creation time.
    - If the file exists: read and note the tier values for reference.
    - If the file doesn't exist: ignore silently — all steps default to `powerful` at dispatch.
+   - **Model mapping by IDE**:
+     - **Claude Code**: `fast` = Claude Haiku/lightest available; `powerful` = Claude default model
+     - **Qwen Code**: `fast` = Qwen-Plus or Qwen-Turbo; `powerful` = Qwen-Max
+     - **Other IDEs**: `fast` = fastest/lightest model available; `powerful` = default model (no override)
 5. Inform the user that the squad is starting:
    ```
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -282,7 +286,13 @@ Apply this transformation consistently for every write in this step.
 - **Before building the subagent prompt**: Apply the Output Path Transformation (Step 1: run_id injection + Step 2: version folder) to all output paths referenced in the step file. Store the transformed path(s) in working memory — they will be used both in the prompt and in post-completion verification. Never pass raw paths from the step file to the subagent.
 - Use the Task tool to dispatch the step as a subagent:
   - If `model_tier: fast`: use the fastest/lightest model available in your current IDE.
+    - **Qwen Code**: Use Qwen-Plus or Qwen-Turbo
+    - **Claude Code**: Use Claude Haiku or lightest available
+    - **Other IDEs**: Use fastest model available
   - If `model_tier: powerful` or absent/invalid: use the default model (no model override needed)
+    - **Qwen Code**: Use Qwen-Max
+    - **Claude Code**: Use Claude default model
+    - **Other IDEs**: Use default model
 - In the Task prompt, include:
   - The full agent persona from the party CSV
   - The full agent `.agent.md` content (persona, principles, voice guidance, anti-patterns)

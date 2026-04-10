@@ -17,3 +17,4 @@
 
 ## Técnico (específico do squad)
 - Usa Playwright para postar no LinkedIn.
+- O editor Pulse do LinkedIn (2026) apresenta instabilidade na detecção automatizada do campo de título (H1), por vezes requerendo intervenção via Browser Subagent para garantir o "commit" do texto antes da publicação.

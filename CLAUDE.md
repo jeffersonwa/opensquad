@@ -2,6 +2,17 @@
 
 This project uses **Opensquad**, a multi-agent orchestration framework.
 
+## Supported IDEs
+
+This project supports multiple IDEs:
+- **Claude Code** — Full support with subagents
+- **Qwen Code** — Full support with Qwen models (Qwen-Max, Qwen-Plus, Qwen-Turbo)
+- **Cursor** — Full support
+- **VS Code + Copilot** — Full support
+- **Codex (OpenAI)** — Full support
+- **Open Code** — Full support
+- **Antigravity** — Sequential execution only (no subagents)
+
 ## Quick Start
 
 Type `/opensquad` to open the main menu, or use any of these commands:

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [Unreleased]
 
+### Added
+- **Qwen Code IDE support** — Full integration as a supported IDE
+- Qwen model mapping — Qwen-Max (powerful), Qwen-Plus/Turbo (fast)
+- Qwen Code template structure in `ide-templates/qwen-code/`
+- Qwen development skill in `.claude/skills/opensquad-qwen/`
+
 ## [0.1.14] - 2026-03-30
 
 ### Added

@@ -1,0 +1,19 @@
+# Qwen Code Configuration
+
+ide: qwen-code
+version: "1.0"
+
+models:
+  fast:
+    - qwen-plus
+    - qwen-turbo
+    default: qwen-plus
+  powerful:
+    - qwen-max
+    default: qwen-max
+
+settings:
+  supports_subagents: true
+  supports_mcp: true
+  supports_background_tasks: true
+  model_override_syntax: "model: {model_name}"

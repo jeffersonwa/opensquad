@@ -30,29 +30,41 @@ async function publishArticle(title, content, coverImage) {
     });
 
     const page = await context.newPage();
+    const allTargets = [page, ...page.frames()];
     
     const contentSelectors = [
-        '.editor-content__editor [contenteditable="true"]',
-        '.ql-editor[contenteditable="true"]',
-        'div[role="textbox"][aria-label="Corpo do artigo"]',
-        '.editor-content__editor'
+        '.ProseMirror',
+        'div[role="textbox"][aria-label*="Conteúdo"]',
+        'div[role="textbox"][aria-label*="Content"]',
+        'div[role="textbox"][aria-label*="artigo"]',
+        'div[role="textbox"][aria-label*="article"]',
+        'div[data-placeholder*="Escreva aqui"]',
+        'div[data-placeholder*="Write here"]',
+        '.editor-content textarea'
+    ];
+
+    const titleSelectors = [
+        'textarea[aria-label="Título do seu artigo"]',
+        'textarea[aria-label="Your article title"]',
+        'textarea[placeholder*="Título"]',
+        'textarea[placeholder*="Title"]',
+        '[contenteditable="true"].editor-content__title',
+        'textarea'
+    ];
+
+    const coverSelectors = [
+        'button:has-text("Carregar do computador")',
+        'button:has-text("Upload from computer")',
+        'input[type="file"]',
+        '.artdeco-button__icon[data-test-icon="image-outline"]'
     ];
 
     try {
         await login(page);
 
-        console.log('📝 Iniciando criação de artigo...');
+        console.log('📝 Iniciando criação de artigo a partir do feed...');
         await page.goto('https://www.linkedin.com/feed/', { waitUntil: 'domcontentloaded', timeout: 60000 });
-        await page.waitForTimeout(15000); 
-
-        const articleButtonSelectors = [
-            'button:has-text("Escrever artigo")',
-            'span:has-text("Escrever artigo")',
-            'button:has-text("Write article")',
-            'span:has-text("Write article")',
-            '[data-control-name="write_article_launch"]',
-            '.share-box-feed-entry__trigger--article'
-        ];
+        await page.waitForTimeout(10000); // Wait for feed to load
 
         let articleButtonFound = false;
         try {
@@ -72,17 +84,16 @@ async function publishArticle(title, content, coverImage) {
             
             if (articleButtonFound) {
                 console.log('✅ Botão clicado via JS. Aguardando carregamento do editor...');
-                await page.waitForTimeout(10000); // Wait longer for the editor to open
-                await page.screenshot({ path: resolve('temp/after_click_article.png') });
+                await page.waitForTimeout(10000);
             }
         } catch (e) {
             console.log('ℹ️ Erro ao tentar clicar via JS.');
         }
 
         if (!articleButtonFound) {
-            console.log('⚠️ Botão não encontrado via JS. Tentando seletores padrão e URL direta...');
-            await page.goto('https://www.linkedin.com/pulse/article/new', { waitUntil: 'load', timeout: 60000 });
-            await page.waitForTimeout(5000);
+            console.log('⚠️ Botão não encontrado via JS. Tentando URl direta...');
+            await page.goto('https://www.linkedin.com/pulse/article/new', { waitUntil: 'domcontentloaded', timeout: 60000 });
+            await page.waitForTimeout(10000);
         }
 
         // Handle Publishing Identity Overlay (Profile vs Page)
@@ -123,6 +134,7 @@ async function publishArticle(title, content, coverImage) {
         ];
         
         let headlineFound = false;
+        let globalTitlePos = null;
         
         // Attempt 1: Multi-strategy Focus (Role + Coordinates + Text)
         const targets = [page, ...page.frames()];
@@ -133,33 +145,77 @@ async function publishArticle(title, content, coverImage) {
             try {
                 // Deep search for the Draft.js title editor
                 console.log(`🔬 Buscando editor Draft.js em ${target === page ? 'main' : 'iframe'}...`);
-                const titleFilled = await target.evaluate((t) => {
-                    const editables = Array.from(document.querySelectorAll('[contenteditable="true"]'));
-                    // Title is typically the first one or contains "Título" in placeholder
-                    const titleField = editables.find(el => 
-                        el.getAttribute('data-placeholder')?.includes('Título') || 
-                        el.getAttribute('aria-label')?.includes('Título') ||
-                        el.tagName === 'H1'
-                    ) || editables[0];
+                const titlePos = await target.evaluate((t) => {
+                    const selectors = [
+                        'textarea.headline__textarea',
+                        'textarea.editor-title-input',
+                        'textarea[placeholder="Título"]',
+                        'textarea[placeholder="Headline"]',
+                        'h1[contenteditable="true"]',
+                        '[data-placeholder="Título"]',
+                        '[data-placeholder="Headline"]'
+                    ];
+
+                    let titleField = null;
+                    for (const s of selectors) {
+                        const el = document.querySelector(s);
+                        if (el && el.offsetHeight > 0) {
+                            titleField = el;
+                            break;
+                        }
+                    }
+
+                    if (!titleField) {
+                        const editables = Array.from(document.querySelectorAll('[contenteditable="true"]'));
+                        titleField = editables.find(el => {
+                            const placeholder = el.getAttribute('data-placeholder')?.toLowerCase() || '';
+                            const label = el.getAttribute('aria-label')?.toLowerCase() || '';
+                            return placeholder.includes('título') || placeholder.includes('headline') || 
+                                   label.includes('título') || label.includes('headline');
+                        });
+                    }
 
                     if (titleField) {
                         titleField.focus();
-                        document.execCommand('selectAll', false, null);
-                        document.execCommand('delete', false, null);
-                        document.execCommand('insertText', false, t);
+                        const fullTitle = t;
+                        if (titleField.tagName === 'TEXTAREA') {
+                            titleField.value = fullTitle;
+                        } else {
+                            titleField.innerText = fullTitle;
+                        }
+                        
+                        // Critical state triggers
                         titleField.dispatchEvent(new Event('input', { bubbles: true }));
+                        titleField.dispatchEvent(new Event('change', { bubbles: true }));
                         titleField.dispatchEvent(new Event('blur', { bubbles: true }));
-                        return true;
+                        
+                        const rect = titleField.getBoundingClientRect();
+                        return { x: rect.left + 5, y: rect.top + 5 };
                     }
-                    return false;
+                    return null;
                 }, title);
 
-                if (titleFilled) {
-                    console.log('✅ Título injetado via JavaScript exaustivo.');
+                if (titlePos) {
+                    globalTitlePos = titlePos;
+                    console.log('✅ Campo de título localizado. Garantindo registro de estado...');
+                    // Click to focus properly
+                    await page.mouse.click(titlePos.x, titlePos.y);
+                    await page.waitForTimeout(500);
+                    
+                    // Simple real keyboard events to "dirty" the field for LinkedIn's React/Glimmer logic
+                    await page.keyboard.press('End');
+                    await page.keyboard.press('Space');
+                    await page.keyboard.press('Backspace');
+                    
+                    await page.waitForTimeout(1000); 
+                    
                     headlineFound = true;
-                    await page.waitForTimeout(1000);
+                    console.log('✅ Título injetado via Híbrido (JS + REAL).');
+                    await page.screenshot({ path: resolve('temp/debug_title_filled.png') });
                 }
-            } catch (e) {}
+            } catch (e) {
+                console.log(`ℹ️ Erro ao tentar injetar título em ${target === page ? 'main' : 'iframe'}: ${e.message}`);
+            }
         }
 
         // Attempt 2: Keyboard Relative Navigation (The "Pro" Way)
@@ -212,33 +268,40 @@ async function publishArticle(title, content, coverImage) {
         if (coverImage && existsSync(resolve(coverImage))) {
             console.log('🖼️ Fazendo upload da capa...');
             let coverUploaded = false;
-            const coverSelectors = ['button:has-text("Carregar do computador")', '.cover-image-upload__button', 'button:has-text("Add a cover image")'];
-            
             // Try main page
+            console.log('🔍 Tentando localizar botão de capa na página principal...');
             for (const selector of coverSelectors) {
                 try {
-                    if (await page.isVisible(selector)) {
+                    const btn = page.locator(selector).first();
+                    if (await btn.isVisible()) {
+                        console.log(`✅ Botão de capa encontrado: ${selector}`);
                         const [fileChooser] = await Promise.all([
-                            page.waitForEvent('filechooser', { timeout: 10000 }),
-                            page.click(selector)
+                            page.waitForEvent('filechooser', { timeout: 20000 }),
+                            btn.click()
                         ]);
                         await fileChooser.setFiles(resolve(coverImage));
+                        console.log('📤 Imagem enviada. Aguardando processamento...');
                         coverUploaded = true;
                         break;
                     }
-                } catch (e) {}
+                } catch (e) {
+                    console.log(`ℹ️ Erro ao tentar seletor ${selector}: ${e.message}`);
+                }
             }
 
             // Try iframes
             if (!coverUploaded) {
+                console.log('🔍 Tentando localizar botão de capa em iFrames...');
                 const frames = page.frames();
                 for (const frame of frames) {
                     for (const selector of coverSelectors) {
                         try {
-                            if (await frame.isVisible(selector)) {
+                            const btn = frame.locator(selector).first();
+                            if (await btn.isVisible()) {
+                                console.log(`✅ Botão de capa encontrado no iFrame ${frame.name()}: ${selector}`);
                                 const [fileChooser] = await Promise.all([
-                                    page.waitForEvent('filechooser', { timeout: 10000 }),
-                                    frame.click(selector)
+                                    page.waitForEvent('filechooser', { timeout: 20000 }),
+                                    btn.click()
                                 ]);
                                 await fileChooser.setFiles(resolve(coverImage));
                                 coverUploaded = true;
@@ -249,41 +312,98 @@ async function publishArticle(title, content, coverImage) {
                     if (coverUploaded) break;
                 }
             }
-            if (coverUploaded) await page.waitForTimeout(5000);
-        }
-
-        // Conteúdo
-        console.log('📄 Inserindo conteúdo...');
-        let contentFound = false;
-        // Try main page
-        for (const selector of contentSelectors) {
-            try {
-                if (await page.isVisible(selector)) {
-                    await page.click(selector);
-                    await page.fill(selector, content);
-                    contentFound = true;
-                    break;
+            if (coverUploaded) {
+                console.log('✅ Capa enviada com sucesso!');
+                await page.waitForTimeout(4000); 
+                
+                // Close cover modal if it's still open
+                console.log('🔍 Fechando modais de capa residuais...');
+                for (let i = 0; i < 3; i++) {
+                    await page.keyboard.press('Escape');
+                    await page.waitForTimeout(1000);
                 }
-            } catch (e) {}
-        }
-
-        // Try iframes
-        if (!contentFound) {
-            const frames = page.frames();
-            for (const frame of frames) {
-                for (const selector of contentSelectors) {
-                    try {
-                        if (await frame.isVisible(selector)) {
-                            await frame.click(selector);
-                            await frame.fill(selector, content);
-                            contentFound = true;
-                            break;
-                        }
-                    } catch (e) {}
-                }
-                if (contentFound) break;
+            } else {
+                console.log('❌ Não foi possível realizar o upload da capa (botão não encontrado).');
+                await page.screenshot({ path: resolve('temp/debug_cover_failed.png') });
             }
         }
+
+        // Conteúdo (Multiframe Surgical)
+        console.log('📄 Inserindo conteúdo...');
+        let contentProcessed = false;
+        
+        for (const target of allTargets) {
+            if (contentProcessed) break;
+            for (const selector of contentSelectors) {
+                try {
+                    const editors = await target.$$(selector);
+                    if (editors && editors.length > 0) {
+                        // Grab the last one! (Title is usually first, Body is usually second/last)
+                        const editor = editors[editors.length - 1];
+                        const visible = await editor.isVisible();
+                        if (visible) {
+                            console.log(`   - Campo de conteúdo encontrado e VISÍVEL em ${target === page ? 'main' : 'iframe'}: ${selector} (Instância ${editors.length})`);
+                            
+                            // Surgical Focus
+                            console.log(`   - Focando e clicando no editor ${selector}...`);
+                            await editor.focus();
+                            await page.waitForTimeout(500);
+                            await editor.click();
+                            await page.waitForTimeout(1000);
+                            
+                            // Clear
+                            await page.keyboard.down('Control');
+                            await page.keyboard.press('a');
+                            await page.keyboard.up('Control');
+                            await page.keyboard.press('Backspace');
+                            await page.waitForTimeout(500);
+                            
+                            // Insert
+                            console.log('   - Digitando conteúdo via teclado virtual...');
+                            await page.keyboard.insertText(content);
+                            await page.waitForTimeout(3000);
+                            
+                            contentProcessed = true;
+                            break;
+                        } else {
+                            console.log(`   - Selector ${selector} encontrado mas NÃO visível.`);
+                        }
+                    }
+                } catch (e) {
+                    console.log(`   - Erro ao tentar injetar em ${selector}: ${e.message}`);
+                }
+            }
+        }
+
+        // Mega Aggressive Modal Closure Fallback (if content still not processed)
+        if (!contentProcessed) {
+            console.log('   - MEGA AGRESSIVO: Tentando fechar modais residuais...');
+            for (let i = 0; i < 3; i++) {
+                await page.keyboard.press('Escape');
+                await page.waitForTimeout(1000);
+            }
+        }
+
+        if (!contentProcessed) {
+            console.log('⚠️ Aviso: Forçando injeção via Coordenadas Absolutas na Área Segura (350, 750)...');
+            try {
+                await page.mouse.click(350, 750);
+                await page.waitForTimeout(1000);
+                
+                await page.keyboard.down('Control');
+                await page.keyboard.press('a');
+                await page.keyboard.up('Control');
+                await page.keyboard.press('Backspace');
+                
+                await page.keyboard.insertText(content);
+                await page.waitForTimeout(2000);
+                contentProcessed = true;
+            } catch (e) {
+                console.log(`   - Falha no clique absoluto: ${e.message}`);
+            }
+        }
+
+        await page.screenshot({ path: resolve('temp/debug_body_filled.png') });
 
         // Publicar
         console.log('📤 Publicando...');

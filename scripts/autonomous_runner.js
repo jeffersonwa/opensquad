@@ -73,7 +73,7 @@ async function main() {
 
         // Etapa 4: Publicação
         log('📤 Enviando para LinkedIn...');
-        const publishCmd = `node skills/linkedin-publisher/scripts/publish.js --type article --title "${articleData.title}" --content "${articleData.content}"`;
+        const publishCmd = `node skills/linkedin-publisher/scripts/publish.js --type article --title "${articleData.title}" --content "${articleData.content}" --cover "${coverPath}"`;
         await runStep('Publicação', publishCmd);
 
         log(`🎉 Execução concluída com sucesso!`);
